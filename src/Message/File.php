@@ -1,10 +1,9 @@
 <?php
+
 namespace CodeBot\Message;
 
-class Text implements Message
+class File implements Message
 {
-    private $recipientId;
-
     public function __construct(string $recipientId)
     {
         $this->recipientId = $recipientId;
@@ -16,8 +15,12 @@ class Text implements Message
                 'id' => $this->recipientId
             ],
             'message' => [
-                'text' => $messageText,
-                'metadata' => 'DEVELOPER_DEFINED_METADATA'
+                'attachment' => [
+                    'type' => 'file',
+                    'payload' => [
+                        'url' => $messageText
+                    ]
+                ]
             ]
         ];
     }
