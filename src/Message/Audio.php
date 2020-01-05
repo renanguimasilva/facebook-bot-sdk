@@ -1,29 +1,29 @@
 <?php
 
-namespace CodeBot;
+namespace CodeBot\Message;
 
-use GuzzleHttp\Client;
-
-class CallSendApi
+class Audio implements Message
 {
-    const URL = 'https://graph.facebook.com/v2.6/me/messages';
-    private $pageAccessToken;
+    private $recipientId;
 
-    public function __construct(string $pageAccessToken)
+    public function __construct(string $recipientId)
     {
-        $this->pageAccessToken = $pageAccessToken;
+        $this->recipientId = $recipientId;
     }
-
-    public function make(array $message, string $url = null, $method = 'POST') :string
+    public function message(string $messageText) :array
     {
-        $client = new Client;
-        $url = $url ?? CallSendApi::URL;
-
-        $response = $client->request($method, $url, [
-            'json' => $message,
-            'query' => ['access_token' => $this->pageAccessToken]
-        ]);
-
-        return (string)$response->getBody();
+        return [
+            'recipient' => [
+                'id'=>$this->recipientId
+            ],
+            'message' => [
+                'attachment' => [
+                    'type' => 'audio',
+                    'payload' => [
+                        'url' => $messageText
+                    ]
+                ]
+            ]
+        ];
     }
 }
