@@ -20,7 +20,7 @@ class CallSendApi
         $url = $url ?? CallSendApi::URL;
 
         $response = $client->request($method, $url, [
-            'json' => $method,
+            'json' => $message,
             'query' => ['access_token' => $this->pageAccessToken]
         ]);
 
